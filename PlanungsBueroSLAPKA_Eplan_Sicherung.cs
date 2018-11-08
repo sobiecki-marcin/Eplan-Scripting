@@ -23,6 +23,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     private System.Windows.Forms.RadioButton radioButton2;
     private System.Windows.Forms.Button ButtonOk;
     private System.Windows.Forms.Button ButtonCancel;
+    private Label LabelProject;
     string userDefinedDirectory = @"D:\Electric P8\Projekte\";
     public string pathZW = "";
   
@@ -71,8 +72,21 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.ButtonOk = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
+            this.LabelProject = new System.Windows.Forms.Label();
             this.SuspendLayout();
 
+
+
+
+            // 
+            // LabelProject
+            // 
+            this.LabelProject.AutoSize = true;
+            this.LabelProject.Location = new System.Drawing.Point(28, 300);
+            this.LabelProject.Name = "LabelProject";
+            this.LabelProject.Size = new System.Drawing.Size(66, 13);
+            this.LabelProject.TabIndex = 5;
+            this.LabelProject.Text = "Projektname";
 
             // 
             // CheckBoxProjectCheck
@@ -190,6 +204,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(351, 389);
+            this.Controls.Add(this.LabelProject);
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.ButtonOk);
             this.Controls.Add(this.radioButton2);
@@ -204,7 +219,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.Name = "PlanungsBüro_SLAPKA_Eplan_Sicherung";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PlanungsBüro_SLAPKA_Eplan_Sicherung";
-           // this.Load += new System.EventHandler(this.PlanungsBüro_SLAPKA_Eplan_Sicherung_Load);
+            this.Load += new System.EventHandler(this.PlanungsBüro_SLAPKA_Eplan_Sicherung_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
   }
@@ -268,6 +283,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     Cursor.Current = Cursors.WaitCursor;
 
       while (!string.IsNullOrEmpty(PathMap.SubstitutePath("$(PROJECTNAME)"))) {   
+
         ActionCallingContext ProjektContext = new ActionCallingContext();
         ProjektContext.AddParameter("NOCLOSE", "0");
 
@@ -347,7 +363,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             cli.Execute("export", acc);
         }
 
-
+            LabelProject.Text = "Projekt in Bearbeitung: " + PathMap.SubstitutePath("$(PROJECTNAME)");
             new CommandLineInterpreter().Execute("XPrjActionProjectClose", ProjektContext);
            
  }
@@ -357,5 +373,9 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     return;
   }
   
+    private void PlanungsBüro_SLAPKA_Eplan_Sicherung_Load(object sender, System.EventArgs e)
+  {
+    LabelProject.Text = "Projekt in Bearbeitung: " + PathMap.SubstitutePath("$(PROJECTNAME)");
+  }
 
 }
