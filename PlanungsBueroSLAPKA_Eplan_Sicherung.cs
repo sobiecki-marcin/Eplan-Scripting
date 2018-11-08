@@ -24,6 +24,10 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     private System.Windows.Forms.Button ButtonOk;
     private System.Windows.Forms.Button ButtonCancel;
     private Label LabelProject;
+    private System.Windows.Forms.Label PrueflaufCheck;
+    private System.Windows.Forms.Label AuswertenCheck;
+    private System.Windows.Forms.Label sichernCheck;
+    private System.Windows.Forms.Label PdfCheck;
     string userDefinedDirectory = @"D:\Electric P8\Projekte\";
     public string pathZW = "";
   
@@ -73,6 +77,10 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.ButtonOk = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.LabelProject = new System.Windows.Forms.Label();
+            this.PrueflaufCheck = new System.Windows.Forms.Label();
+            this.AuswertenCheck = new System.Windows.Forms.Label();
+            this.sichernCheck = new System.Windows.Forms.Label();
+            this.PdfCheck = new System.Windows.Forms.Label();
             this.SuspendLayout();
 
 
@@ -87,6 +95,56 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.LabelProject.Size = new System.Drawing.Size(66, 13);
             this.LabelProject.TabIndex = 5;
             this.LabelProject.Text = "Projektname";
+
+             // 
+            // PrueflaufCheck
+            // 
+            this.PrueflaufCheck.AutoSize = true;
+            this.PrueflaufCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.PrueflaufCheck.ForeColor = System.Drawing.Color.Green;
+            this.PrueflaufCheck.Location = new System.Drawing.Point(159, 28);
+            this.PrueflaufCheck.Name = "PrueflaufCheck";
+            this.PrueflaufCheck.Size = new System.Drawing.Size(17, 17);
+            this.PrueflaufCheck.TabIndex = 11;
+            this.PrueflaufCheck.Text = "✓";
+            this.PrueflaufCheck.Visible = false;
+            //this.PrueflaufCheck.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // AuswertenCheck
+            // 
+            this.AuswertenCheck.AutoSize = true;
+            this.AuswertenCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.AuswertenCheck.ForeColor = System.Drawing.Color.Green;
+            this.AuswertenCheck.Location = new System.Drawing.Point(159, 61);
+            this.AuswertenCheck.Name = "AuswertenCheck";
+            this.AuswertenCheck.Size = new System.Drawing.Size(17, 17);
+            this.AuswertenCheck.TabIndex = 12;
+            this.AuswertenCheck.Text = "✓";
+            this.AuswertenCheck.Visible = false;
+            // 
+            // sichernCheck
+            // 
+            this.sichernCheck.AutoSize = true;
+            this.sichernCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.sichernCheck.ForeColor = System.Drawing.Color.Green;
+            this.sichernCheck.Location = new System.Drawing.Point(159, 94);
+            this.sichernCheck.Name = "sichernCheck";
+            this.sichernCheck.Size = new System.Drawing.Size(17, 17);
+            this.sichernCheck.TabIndex = 13;
+            this.sichernCheck.Text = "✓";
+            this.sichernCheck.Visible = false;
+            // 
+            // PdfCheck
+            // 
+            this.PdfCheck.AutoSize = true;
+            this.PdfCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
+            this.PdfCheck.ForeColor = System.Drawing.Color.Green;
+            this.PdfCheck.Location = new System.Drawing.Point(159, 203);
+            this.PdfCheck.Name = "PdfCheck";
+            this.PdfCheck.Size = new System.Drawing.Size(17, 17);
+            this.PdfCheck.TabIndex = 14;
+            this.PdfCheck.Text = "✓";
+            this.PdfCheck.Visible = false;
 
             // 
             // CheckBoxProjectCheck
@@ -140,7 +198,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             // 
             this.ButtonOpenSaveDialog.Location = new System.Drawing.Point(287, 149);
             this.ButtonOpenSaveDialog.Name = "ButtonOpenSaveDialog";
-            this.ButtonOpenSaveDialog.Size = new System.Drawing.Size(36, 20);
+            this.ButtonOpenSaveDialog.Size = new System.Drawing.Size(20, 20);
             this.ButtonOpenSaveDialog.TabIndex = 5;
             this.ButtonOpenSaveDialog.Text = "...";
             this.ButtonOpenSaveDialog.UseVisualStyleBackColor = true;
@@ -216,6 +274,10 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.Controls.Add(this.CheckBoxBackup);
             this.Controls.Add(this.CheckBoxReport);
             this.Controls.Add(this.CheckBoxProjectCheck);
+            this.Controls.Add(this.PdfCheck);
+            this.Controls.Add(this.sichernCheck);
+            this.Controls.Add(this.AuswertenCheck);
+            this.Controls.Add(this.PrueflaufCheck);
             this.Name = "PlanungsBüro_SLAPKA_Eplan_Sicherung";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PlanungsBüro_SLAPKA_Eplan_Sicherung";
@@ -283,7 +345,13 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     Cursor.Current = Cursors.WaitCursor;
 
       while (!string.IsNullOrEmpty(PathMap.SubstitutePath("$(PROJECTNAME)"))) {   
-
+        LabelProject.Text = "Projekt in Bearbeitung: " + PathMap.SubstitutePath("$(PROJECTNAME)");
+        //
+        this.PrueflaufCheck.Visible = false;
+        this.AuswertenCheck.Visible = false;
+        this.sichernCheck.Visible = false;
+        this.PdfCheck.Visible = false;
+        //
         ActionCallingContext ProjektContext = new ActionCallingContext();
         ProjektContext.AddParameter("NOCLOSE", "0");
 
@@ -295,12 +363,14 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         {
           acc.AddParameter("TYPE", "PROJECT");
           cli.Execute("check", acc);
+          this.PrueflaufCheck.Visible = true;
         }
 
 
         if (CheckBoxReport.Checked)
         {
           cli.Execute("reports");
+          this.AuswertenCheck.Visible = true;
         }
 
 
@@ -328,6 +398,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             acc.AddParameter("TYPE", "PROJECT");
 
             cli.Execute("backup", acc);
+            this.sichernCheck.Visible = true;
         }
 
 
@@ -361,10 +432,13 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             acc.AddParameter("EXPORTSCHEME", "EPLAN_default_value");
 
             cli.Execute("export", acc);
+            this.PdfCheck.Visible = true;
         }
 
-            LabelProject.Text = "Projekt in Bearbeitung: " + PathMap.SubstitutePath("$(PROJECTNAME)");
+            
+
             new CommandLineInterpreter().Execute("XPrjActionProjectClose", ProjektContext);
+
            
  }
     Cursor.Current = Cursors.Default;  
