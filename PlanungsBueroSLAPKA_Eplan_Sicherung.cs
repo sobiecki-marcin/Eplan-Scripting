@@ -23,7 +23,6 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     private System.Windows.Forms.RadioButton radioButton2;
     private System.Windows.Forms.Button ButtonOk;
     private System.Windows.Forms.Button ButtonCancel;
-    private System.Windows.Forms.ProgressBar ProgressBarFull;
     string userDefinedDirectory = @"D:\Electric P8\Projekte\";
     public string pathZW = "";
   
@@ -72,18 +71,9 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.ButtonOk = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
-            this.ProgressBarFull = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
 
-            // 
-            // ProgressBarFull
-            // 
-            this.ProgressBarFull.Location = new System.Drawing.Point(28, 300);
-            this.ProgressBarFull.Maximum = 3;
-            this.ProgressBarFull.Name = "ProgressBarFull";
-            this.ProgressBarFull.Size = new System.Drawing.Size(300, 10);
-            this.ProgressBarFull.Step = 1;
-            this.ProgressBarFull.TabIndex = 6;
+
             // 
             // CheckBoxProjectCheck
             // 
@@ -200,7 +190,6 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(351, 389);
-            this.Controls.Add(this.ProgressBarFull);
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.ButtonOk);
             this.Controls.Add(this.radioButton2);
@@ -285,20 +274,20 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         CommandLineInterpreter cli = new CommandLineInterpreter();
         ActionCallingContext acc = new ActionCallingContext();
 
-        ProgressBarFull.PerformStep();
+
         if (CheckBoxProjectCheck.Checked)
         {
           acc.AddParameter("TYPE", "PROJECT");
           cli.Execute("check", acc);
         }
 
-        ProgressBarFull.PerformStep();
+
         if (CheckBoxReport.Checked)
         {
           cli.Execute("reports");
         }
 
-        ProgressBarFull.PerformStep();
+
         if (CheckBoxBackup.Checked)
         {
             string projectName = PathMap.SubstitutePath("$(PROJECTNAME)");
@@ -358,8 +347,6 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             cli.Execute("export", acc);
         }
 
-    ProgressBarFull.PerformStep();   
-    ProgressBarFull.Value = 0;
 
             new CommandLineInterpreter().Execute("XPrjActionProjectClose", ProjektContext);
            
