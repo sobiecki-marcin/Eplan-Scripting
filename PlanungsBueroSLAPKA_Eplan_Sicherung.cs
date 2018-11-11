@@ -106,7 +106,8 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.PrueflaufCheck.Name = "PrueflaufCheck";
             this.PrueflaufCheck.Size = new System.Drawing.Size(17, 17);
             this.PrueflaufCheck.TabIndex = 11;
-            this.PrueflaufCheck.Text = "✓";
+            //this.PrueflaufCheck.Text = "✓";
+            this.PrueflaufCheck.Text = "...in Bearbeitung";
             this.PrueflaufCheck.Visible = false;
             //this.PrueflaufCheck.Click += new System.EventHandler(this.label2_Click);
             // 
@@ -119,7 +120,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.AuswertenCheck.Name = "AuswertenCheck";
             this.AuswertenCheck.Size = new System.Drawing.Size(17, 17);
             this.AuswertenCheck.TabIndex = 12;
-            this.AuswertenCheck.Text = "✓";
+            this.AuswertenCheck.Text = "...in Bearbeitung";
             this.AuswertenCheck.Visible = false;
             // 
             // sichernCheck
@@ -131,7 +132,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.sichernCheck.Name = "sichernCheck";
             this.sichernCheck.Size = new System.Drawing.Size(17, 17);
             this.sichernCheck.TabIndex = 13;
-            this.sichernCheck.Text = "✓";
+            this.sichernCheck.Text = "...in Bearbeitung";
             this.sichernCheck.Visible = false;
             // 
             // PdfCheck
@@ -143,7 +144,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             this.PdfCheck.Name = "PdfCheck";
             this.PdfCheck.Size = new System.Drawing.Size(17, 17);
             this.PdfCheck.TabIndex = 14;
-            this.PdfCheck.Text = "✓";
+            this.PdfCheck.Text = "...in Bearbeitung";
             this.PdfCheck.Visible = false;
 
             // 
@@ -361,21 +362,30 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
 
         if (CheckBoxProjectCheck.Checked)
         {
+          this.PrueflaufCheck.Visible = true;
+          this.PrueflaufCheck.Text = "...in Bearbeitung";
           acc.AddParameter("TYPE", "PROJECT");
           cli.Execute("check", acc);
-          this.PrueflaufCheck.Visible = true;
+          this.PrueflaufCheck.Text = "✓";
         }
 
 
         if (CheckBoxReport.Checked)
         {
-          cli.Execute("reports");
           this.AuswertenCheck.Visible = true;
+          this.AuswertenCheck.Text = "...in Bearbeitung";
+          cli.Execute("reports");
+          this.AuswertenCheck.Text = "✓";
+          
         }
 
 
         if (CheckBoxBackup.Checked)
         {
+            this.sichernCheck.Visible = true;
+            this.sichernCheck.Text = "...in Bearbeitung";
+
+
             string projectName = PathMap.SubstitutePath("$(PROJECTNAME)");
             string date = DateTime.Now.ToString("yyyy.MM.dd");
             string backupFileName = projectName + "_" + date + ".zw1";
@@ -398,12 +408,15 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             acc.AddParameter("TYPE", "PROJECT");
 
             cli.Execute("backup", acc);
-            this.sichernCheck.Visible = true;
+            this.sichernCheck.Text = "✓";
         }
 
 
         if (CheckBoxExportPDF.Checked)
         {
+            this.PdfCheck.Visible = true;
+            this.PdfCheck.Text = "...in Bearbeitung";
+
             string projectName = PathMap.SubstitutePath("$(PROJECTNAME)");
             string date = DateTime.Now.ToString("yyyy.MM.dd");
             string backupFileNamePDF = projectName + "_" + date + ".pdf";
@@ -432,7 +445,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
             acc.AddParameter("EXPORTSCHEME", "EPLAN_default_value");
 
             cli.Execute("export", acc);
-            this.PdfCheck.Visible = true;
+            this.PdfCheck.Text = "✓";
         }
 
             
