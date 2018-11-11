@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using Eplan.EplApi.ApplicationFramework;
@@ -28,8 +29,10 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
     private System.Windows.Forms.Label AuswertenCheck;
     private System.Windows.Forms.Label sichernCheck;
     private System.Windows.Forms.Label PdfCheck;
-    string userDefinedDirectory = @"D:\Electric P8\Projekte\";
-    public string pathZW = "";
+    string userDefinedDirectory = PathMap.SubstitutePath("$(MD_PROJECTS)");
+    public string pathZW = string.Empty;
+    List<string> proj = new List<string>();
+    string allProj = string.Empty;
   
 
    
@@ -359,6 +362,10 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         CommandLineInterpreter cli = new CommandLineInterpreter();
         ActionCallingContext acc = new ActionCallingContext();
 
+        //string projectName = PathMap.SubstitutePath("$(PROJECTNAME)");
+
+        proj.Add(PathMap.SubstitutePath("$(PROJECTNAME)"));
+
 
         if (CheckBoxProjectCheck.Checked)
         {
@@ -455,6 +462,21 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
            
  }
     Cursor.Current = Cursors.Default;  
+
+       foreach (string x in proj)
+    {
+        allProj += x + Environment.NewLine;
+    }
+
+    MessageBox.Show(
+      "Ausgabe für: "  + Environment.NewLine + allProj +
+      "wurde erledigt."
+      ,
+      "Hinweis",
+      MessageBoxButtons.OK,
+      MessageBoxIcon.Information
+    );
+
     this.Close();
 
     return;
