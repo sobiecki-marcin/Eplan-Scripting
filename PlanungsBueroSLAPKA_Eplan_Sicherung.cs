@@ -350,6 +350,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
 
       while (!string.IsNullOrEmpty(PathMap.SubstitutePath("$(PROJECTNAME)"))) {   
         LabelProject.Text = "Projekt in Bearbeitung: " + PathMap.SubstitutePath("$(PROJECTNAME)");
+        LabelProject.Refresh(); 
         //
         this.PrueflaufCheck.Visible = false;
         this.AuswertenCheck.Visible = false;
@@ -371,9 +372,11 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         {
           this.PrueflaufCheck.Visible = true;
           this.PrueflaufCheck.Text = "...in Bearbeitung";
+          this.PrueflaufCheck.Refresh(); 
           acc.AddParameter("TYPE", "PROJECT");
           cli.Execute("check", acc);
           this.PrueflaufCheck.Text = "✓";
+          this.PrueflaufCheck.Refresh(); 
         }
 
 
@@ -381,8 +384,10 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         {
           this.AuswertenCheck.Visible = true;
           this.AuswertenCheck.Text = "...in Bearbeitung";
+          this.AuswertenCheck.Refresh(); 
           cli.Execute("reports");
           this.AuswertenCheck.Text = "✓";
+          this.AuswertenCheck.Refresh(); 
           
         }
 
@@ -391,6 +396,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         {
             this.sichernCheck.Visible = true;
             this.sichernCheck.Text = "...in Bearbeitung";
+            this.sichernCheck.Refresh(); 
 
 
             string projectName = PathMap.SubstitutePath("$(PROJECTNAME)");
@@ -416,6 +422,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
 
             cli.Execute("backup", acc);
             this.sichernCheck.Text = "✓";
+            this.sichernCheck.Refresh(); 
         }
 
 
@@ -423,6 +430,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
         {
             this.PdfCheck.Visible = true;
             this.PdfCheck.Text = "...in Bearbeitung";
+            this.PdfCheck.Refresh(); 
 
             string projectName = PathMap.SubstitutePath("$(PROJECTNAME)");
             string date = DateTime.Now.ToString("yyyy.MM.dd");
@@ -453,6 +461,7 @@ public partial class PlanungsBüro_SLAPKA_Eplan_Sicherung : System.Windows.Forms
 
             cli.Execute("export", acc);
             this.PdfCheck.Text = "✓";
+            this.PdfCheck.Refresh(); 
         }
 
             
